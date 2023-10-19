@@ -4,7 +4,7 @@ interface ScreenState
 
 interface ScreenEvent
 
-abstract class Screen {
+abstract class ScreenModel {
 
-    abstract fun update(deltaTime: Double)
+
 }
