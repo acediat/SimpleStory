@@ -10,16 +10,21 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import ru.acediat.engine.ScreenHolder
+import ru.acediat.engine.contol.ScreenInputListener
 import ru.acediat.engine.display.Painter
 import ru.acediat.engine.display.Screen
+import ru.acediat.simplestory.control.AndroidScreenInputListener
 import ru.acediat.simplestory.display.PainterImpl
 import ru.acediat.simplestory.screens.DemoScreen
 
 
 class MainActivity : AppCompatActivity(), ScreenHolder {
 
-    private lateinit var painter: Painter
     private lateinit var gameRenderView: GameRenderView
+
+    private lateinit var painter: Painter
+    private lateinit var screenInputListener: AndroidScreenInputListener
+
     private lateinit var currentScreen: Screen
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,8 +36,10 @@ class MainActivity : AppCompatActivity(), ScreenHolder {
             windowManager.defaultDisplay.height,
             Bitmap.Config.ARGB_8888,
         )
+
         painter = PainterImpl(frameBuffer)
-        currentScreen = DemoScreen(painter)
+        screenInputListener = AndroidScreenInputListener()
+        currentScreen = DemoScreen(painter, screenInputListener)
 
         val isLandscape = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
         val frameBufferWidth = if (isLandscape) 555 else 270 //2220 : 1080;
@@ -42,7 +49,9 @@ class MainActivity : AppCompatActivity(), ScreenHolder {
         val scaleX = frameBufferWidth.toFloat() / windowManager.defaultDisplay.width
         val scaleY = frameBufferHeight.toFloat() / windowManager.defaultDisplay.height
 
-        gameRenderView = GameRenderView(this, this, frameBuffer)
+        gameRenderView = GameRenderView(this, this, frameBuffer).apply {
+            setOnTouchListener(screenInputListener)
+        }
         setContentView(gameRenderView)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {

@@ -6,5 +6,5 @@ interface ScreenEvent
 
 abstract class ScreenModel {
 
-
+    abstract fun update()
 }
