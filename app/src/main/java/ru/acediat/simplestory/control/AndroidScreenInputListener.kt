@@ -1,5 +1,6 @@
 package ru.acediat.simplestory.control
 
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import ru.acediat.engine.contol.ScreenInputEvent

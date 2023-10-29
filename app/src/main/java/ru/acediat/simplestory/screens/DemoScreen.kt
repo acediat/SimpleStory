@@ -1,11 +1,13 @@
 package ru.acediat.simplestory.screens
 
 import android.graphics.Color
+import android.util.Log
 import ru.acediat.engine.contol.ScreenInputListener
 import ru.acediat.engine.display.Painter
 import ru.acediat.engine.display.Screen
 import ru.acediat.engine.shapes.AcRect
 import ru.acediat.engine.shapes.Shape
+import ru.acediat.simplestory.common.AcLoggerImpl
 
 class DemoScreen(
     painter: Painter,
@@ -13,21 +15,25 @@ class DemoScreen(
 ) : Screen(painter, screenInputListener) {
 
     override val bounds: Shape
-        get() = AcRect(10000.0f,10000.0f,10000.0f,10000.0f)
+        get() = AcRect(0.0f,10000.0f,0.0f,10000.0f)
 
-    private var x = 0
 
     init {
+        registerLogger(AcLoggerImpl)
         setOnTouchListener {
-            painter.drawFilledRect(AcRect(it.point.x, it.point.x + 10.0f, it.point.y, it.point.y + 10), Color.GREEN)
+            logger?.debug(this::class, "onTouch custom")
+            putToDrawStack {
+                painter.drawFilledRect(AcRect(it.point.x, it.point.x + 10.0f, it.point.y, it.point.y + 10), Color.GREEN)
+            }
         }
     }
 
     override fun update(deltaTime: Double) {
-        x++
+        super.update(deltaTime)
     }
 
     override fun present(deltaTime: Double) {
-        painter.drawFilledRect(AcRect(100.0f + x,200.0f + x , 100.0f, 200.0f), Color.BLUE)
+        painter.drawFilledRect(bounds as AcRect, Color.BLUE)
+        super.present(deltaTime)
     }
 }

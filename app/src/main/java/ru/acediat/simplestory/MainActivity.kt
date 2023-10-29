@@ -10,7 +10,6 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import ru.acediat.engine.ScreenHolder
-import ru.acediat.engine.contol.ScreenInputListener
 import ru.acediat.engine.display.Painter
 import ru.acediat.engine.display.Screen
 import ru.acediat.simplestory.control.AndroidScreenInputListener

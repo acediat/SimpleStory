@@ -15,6 +15,8 @@ abstract class Screen(
         }
     }
 
-    abstract fun present(deltaTime: Double)
+    open fun present(deltaTime: Double) {
+        invokeAllFromDrawStack()
+    }
 
 }
